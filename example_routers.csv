@@ -1,0 +1,5 @@
+SSID,Signal Strength (dBm),MAC Address
+USTH_Guest,-82,48:9b:d5:c5:67:82
+USTH_MGMT,-81,48:9b:d5:c5:67:83
+USTH_Office,-81,48:9b:d5:c5:67:80
+USTH_Student,-82,48:9b:d5:c5:67:81
