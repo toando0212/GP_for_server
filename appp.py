@@ -15,22 +15,26 @@ rf_model_x = joblib.load('rf_model_x.pkl')
 rf_model_y = joblib.load('rf_model_y.pkl')
 encoder = joblib.load('encoder.pkl')
 
+
 @app.route('/')
 def index():
     return render_template('index.html')  # Assumes index.html is in the templates folder
+
 
 @app.route('/coordinates', methods=['GET', 'POST'])
 def coordinates():
     global latest_coordinate
     if request.method == 'POST':
-        # Update the coordinate with user-provided values
         data = request.json
         if 'x' in data and 'y' in data:
             latest_coordinate = {'x': data['x'], 'y': data['y']}
+            print(f"Updated coordinates: x={data['x']}, y={data['y']}")
             return jsonify({"message": "Coordinate updated"}), 200
         return jsonify({"error": "Invalid data"}), 400
-    # For GET requests, return the latest coordinate
+
+    print(f"Sending coordinates: {latest_coordinate}")
     return jsonify(latest_coordinate)
+
 
 @app.route('/upload_csv', methods=['GET', 'POST'])
 def upload_csv():
@@ -57,6 +61,7 @@ def upload_csv():
         }), 200
 
     return jsonify({"error": "Invalid request method"}), 405
+
 
 # Function to predict coordinates based on signal strengths
 def predict_coordinates(routers, networks):
@@ -86,6 +91,7 @@ def predict_coordinates(routers, networks):
     y_pred = rf_model_y.predict(input_data)
 
     return x_pred[0], y_pred[0]
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
